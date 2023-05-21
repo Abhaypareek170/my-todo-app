@@ -1,57 +1,71 @@
 <template>
   <div id="app">
     <h1>To-Do List</h1>
-    <div>
-      <input v-model="newFolderName" type="text" placeholder="Enter folder name">
+    <div class="folder-input">
+      <input
+        v-model="newFolderName"
+        type="text"
+        placeholder="Enter folder name"
+      />
       <button @click="addFolder">Create Folder</button>
     </div>
 
-    <div v-for="(folder, folderIndex) in folders" :key="folderIndex">
+    <div
+      v-for="(folder, folderIndex) in folders"
+      :key="folderIndex"
+      class="folder"
+    >
       <h2>{{ folder.name }}</h2>
-      <input v-model="folder.newTask" type="text" placeholder="Add a new task">
-      <button @click="addTask(folderIndex)">Add Task</button>
+      <div class="task-input">
+        <input
+          v-model="folder.newTask"
+          type="text"
+          placeholder="Add a new task"
+        />
+        <button @click="addTask(folderIndex)">Add Task</button>
+      </div>
 
-      <div v-for="(task, taskIndex) in folder.tasks" :key="taskIndex">
+      <div
+        v-for="(task, taskIndex) in folder.tasks"
+        :key="taskIndex"
+        class="task"
+      >
         <label>
-          <input type="checkbox" v-model="task.completed">
-          <span :class="{ 'completed': task.completed }">{{ task.text }}</span>
+          <input type="checkbox" v-model="task.completed" />
+          <span :class="{ completed: task.completed }">{{ task.text }}</span>
         </label>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
 export default {
   data() {
     return {
-      newFolderName: '',
+      newFolderName: "",
       folders: [],
     };
   },
   methods: {
     addFolder() {
-      if (this.newFolderName !== '') {
+      if (this.newFolderName !== "") {
         this.folders.push({
           name: this.newFolderName,
-          newTask: '',
+          newTask: "",
           tasks: [],
         });
-        this.newFolderName = '';
+        this.newFolderName = "";
       }
     },
     addTask(folderIndex) {
-      if (this.folders[folderIndex].newTask !== '') {
+      if (this.folders[folderIndex].newTask !== "") {
         this.folders[folderIndex].tasks.push({
           text: this.folders[folderIndex].newTask,
           completed: false,
         });
-        this.folders[folderIndex].newTask = '';
+        this.folders[folderIndex].newTask = "";
       }
-    },
-    toggleCompleted(folderIndex, taskIndex) {
-      this.folders[folderIndex].tasks[taskIndex].completed = !this.folders[folderIndex].tasks[taskIndex].completed;
     },
   },
 };
@@ -69,15 +83,21 @@ h1 {
   text-align: center;
 }
 
-input[type="text"] {
-  width: 70%;
-  padding: 10px;
+.folder-input {
+  margin-bottom: 10px;
+}
+
+.folder {
+  margin-bottom: 20px;
+}
+
+.task-input {
   margin-bottom: 10px;
 }
 
 button {
   padding: 10px 20px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
@@ -91,7 +111,6 @@ button:hover {
   text-decoration: line-through;
 }
 </style>
-
 
 <style scoped>
 .logo {
